@@ -406,4 +406,6 @@ dialog::backdrop {
 
 .Toastify__toast-body {
   white-space: pre-line;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
