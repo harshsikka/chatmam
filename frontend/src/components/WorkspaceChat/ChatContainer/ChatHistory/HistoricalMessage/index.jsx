@@ -15,13 +15,34 @@ const HistoricalMessage = forwardRef(
     { uuid = v4(), message, role, workspace, sources = [], error = false },
     ref
   ) => {
+    const isUser = role === "user";
+    const isAssistant = role === "assistant";
+    const backgroundColor = isUser ? USER_BACKGROUND_COLOR : AI_BACKGROUND_COLOR;
+    const uid = isUser ? userFromStorage()?.username : workspace.slug;
+    const showError = error ? (
+      <div className="p-2 rounded-lg bg-red-50 text-red-500">
+        <span className={`inline-block `}>
+          <Warning className="h-4 w-4 mb-1 inline-block" /> Could not
+          respond to message.
+        </span>
+        <p className="text-xs font-mono mt-2 border-l-2 border-red-300 pl-2 bg-red-200 p-2 rounded-sm">
+          {error}
+        </p>
+      </div>
+    ) : (
+      <span
+        className={`whitespace-pre-line text-white font-normal text-sm md:text-sm flex flex-col gap-y-1 mt-2`}
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(renderMarkdown(message)),
+        }}
+      />
+    );
+    
     return (
       <div
         key={uuid}
         ref={ref}
-        className={`flex justify-center items-end w-full ${
-          role === "user" ? USER_BACKGROUND_COLOR : AI_BACKGROUND_COLOR
-        }`}
+        className={`flex justify-center items-end w-full ${backgroundColor}`}
       >
         <div
           className={`py-8 px-4 w-full flex gap-x-5 md:max-w-[800px] flex-col`}
@@ -30,40 +51,19 @@ const HistoricalMessage = forwardRef(
             <Jazzicon
               size={36}
               user={{
-                uid:
-                  role === "user"
-                    ? userFromStorage()?.username
-                    : workspace.slug,
+                uid: uid,
               }}
               role={role}
             />
-
-            {error ? (
-              <div className="p-2 rounded-lg bg-red-50 text-red-500">
-                <span className={`inline-block `}>
-                  <Warning className="h-4 w-4 mb-1 inline-block" /> Could not
-                  respond to message.
-                </span>
-                <p className="text-xs font-mono mt-2 border-l-2 border-red-300 pl-2 bg-red-200 p-2 rounded-sm">
-                  {error}
-                </p>
-              </div>
-            ) : (
-              <span
-                className={`whitespace-pre-line text-white font-normal text-sm md:text-sm flex flex-col gap-y-1 mt-2`}
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(renderMarkdown(message)),
-                }}
-              />
-            )}
+            {showError}
           </div>
-          {role === "assistant" && !error && (
+          {isAssistant && !error && (
             <div className="flex gap-x-5">
               <div className="relative w-[35px] h-[35px] rounded-full flex-shrink-0 overflow-hidden" />
               <Actions message={DOMPurify.sanitize(message)} />
             </div>
           )}
-          {role === "assistant" && <Citations sources={sources} />}
+          {isAssistant && <Citations sources={sources} />}
         </div>
       </div>
     );
