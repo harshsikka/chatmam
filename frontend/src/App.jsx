@@ -75,10 +75,6 @@ export default function App() {
               />
               {/* Manager */}
               <Route
-                path="/settings/export-import"
-                element={<ManagerRoute Component={GeneralExportImport} />}
-              />
-              <Route
                 path="/settings/security"
                 element={<ManagerRoute Component={GeneralSecurity} />}
               />

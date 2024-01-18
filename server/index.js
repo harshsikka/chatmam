@@ -85,11 +85,6 @@ if (process.env.NODE_ENV !== "development") {
   });
 }
 
-app.use(
-  "/system/data-exports",
-  serveIndex(__dirname + "/storage/exports", { icons: true })
-);
-
 app.all("*", function (_, response) {
   response.sendStatus(404);
 });
