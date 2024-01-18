@@ -185,14 +185,14 @@ const Pinecone = {
       await DocumentVectors.bulkInsert(documentVectors);
       return { vectorized: true, error: null };
     } catch (e) {
-      console.error("addDocumentToNamespace", e.message);
-      return { vectorized: false, error: e.message };
-    }
-  },
-  deleteDocumentFromNamespace: async function (namespace, docId) {
-    const { DocumentVectors } = require("../../../models/vectors");
-    const { pineconeIndex } = await this.connect();
-    if (!(await this.namespaceExists(pineconeIndex, namespace))) return;
+      const logger = require('winston');
+      
+      try {
+        // ... rest of the code
+      } catch (e) {
+        logger.error("addDocumentToNamespace", e.message);
+        return { vectorized: false, error: e.message };
+      }
 
     const knownDocuments = await DocumentVectors.where({ docId });
     if (knownDocuments.length === 0) return;
