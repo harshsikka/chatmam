@@ -41,12 +41,12 @@ function workspaceEndpoints(app) {
           await Telemetry.sendTelemetry("onboarding_complete");
 
         response.status(200).json({ workspace, message });
+      try {
+        // ... rest of the code
       } catch (e) {
-        console.log(e.message, e);
-        response.sendStatus(500).end();
+        console.error(`Error occurred while processing request: ${e.message}`, e);
+        response.status(500).json({ error: `Error occurred while processing request: ${e.message}` }).end();
       }
-    }
-  );
 
   app.post(
     "/workspace/:slug/update",
