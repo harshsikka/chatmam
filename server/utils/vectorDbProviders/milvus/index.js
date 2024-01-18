@@ -72,11 +72,11 @@ const Milvus = {
     const { value } = await client
       .hasCollection({ collection_name: namespace })
       .catch((e) => {
-        console.error("MilvusDB::namespaceExists", e.message);
-        return { value: false };
-      });
-    return value;
-  },
+        const logger = require('winston');
+        
+        // Replace all instances of console.error with logger.error
+        logger.error('MilvusDB::namespaceExists', e.message);
+        logger.error('addDocumentToNamespace', e.message);
   deleteVectorsInNamespace: async function (client, namespace = null) {
     await client.dropCollection({ collection_name: namespace });
     return true;
