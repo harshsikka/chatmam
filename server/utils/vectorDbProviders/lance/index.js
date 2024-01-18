@@ -127,14 +127,14 @@ const LanceDb = {
     const { client } = await this.connect();
     const exists = await this.namespaceExists(client, namespace);
     if (!exists) {
-      console.error(
-        `LanceDB:deleteDocumentFromNamespace - namespace ${namespace} does not exist.`
-      );
-      return;
-    }
-
-    const { DocumentVectors } = require("../../../models/vectors");
-    const table = await client.openTable(namespace);
+      const logger = require('winston');
+      
+      // Replace all instances of console.error with logger.error
+      logger.error(`LanceDB:deleteDocumentFromNamespace - namespace ${namespace} does not exist.`);
+      
+      //...
+      
+      logger.error('addDocumentToNamespace', e.message);
     const vectorIds = (await DocumentVectors.where({ docId })).map(
       (record) => record.vectorId
     );
