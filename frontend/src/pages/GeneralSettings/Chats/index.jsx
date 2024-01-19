@@ -19,34 +19,34 @@ export default function WorkspaceChats() {
     json: { mimeType: "application/json", fileExtension: "json" },
     jsonl: { mimeType: "application/jsonl", fileExtension: "jsonl" },
   };
+  const createBlob = (chats, mimeType) => {
+    return new Blob([chats], { type: mimeType });
+  };
+  
+  const downloadFile = (blob, fileExtension) => {
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `chats.${fileExtension}`;
+    document.body.appendChild(link);
+    link.click();
+    window.URL.revokeObjectURL(link.href);
+    document.body.removeChild(link);
+  };
+  
   const handleDumpChats = async () => {
     const chats = await System.exportChats(exportType);
     if (chats) {
       const { mimeType, fileExtension } = exportOptions[exportType];
-      const blob = new Blob([chats], { type: mimeType });
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = `chats.${fileExtension}`;
-      document.body.appendChild(link);
-      link.click();
-      window.URL.revokeObjectURL(link.href);
-      document.body.removeChild(link);
+      const blob = createBlob(chats, mimeType);
+      downloadFile(blob, fileExtension);
       showToast(
         `Chats exported successfully as ${fileExtension.toUpperCase()}. Note: Must have at least 10 chats to be valid for OpenAI fine tuning.`,
-        "success"
+        'success'
       );
     } else {
-      showToast("Failed to export chats.", "error");
+      showToast('Failed to export chats.', 'error');
     }
   };
-
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
         menuRef.current &&
         !menuRef.current.contains(event.target) &&
         !openMenuButton.current.contains(event.target)
