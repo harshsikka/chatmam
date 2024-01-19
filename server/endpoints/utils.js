@@ -47,7 +47,7 @@ async function convertToCSV(workspaceChatsMap) {
 }
 
 async function convertToJSON(workspaceChatsMap) {
-  const allMessages = [].concat.apply(
+  const allMessages = Object.values(workspaceChatsMap).map((workspace) => workspace.messages).flat();
     [],
     Object.values(workspaceChatsMap).map((workspace) => workspace.messages)
   );
