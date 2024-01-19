@@ -35,11 +35,11 @@ async function getDiskStorage() {
 async function convertToCSV(workspaceChatsMap) {
   const rows = ["role,content"];
   for (const workspaceChats of Object.values(workspaceChatsMap)) {
-    for (const message of workspaceChats.messages) {
-      // Escape double quotes and wrap content in double quotes
-      const escapedContent = `"${message.content
-        .replace(/"/g, '""')
-        .replace(/\n/g, " ")}"`;
+    for (const {role, content} of workspaceChats.messages) {
+      const escapedContent = `"${content.replace(/"/g, '""').replace(/\n/g, " ")}"`;
+      rows.push(`${role},${escapedContent}`);
+    }
+  }
       rows.push(`${message.role},${escapedContent}`);
     }
   }
