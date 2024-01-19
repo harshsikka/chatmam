@@ -19,18 +19,18 @@ export default function WorkspaceChats() {
     json: { mimeType: "application/json", fileExtension: "json" },
     jsonl: { mimeType: "application/jsonl", fileExtension: "jsonl" },
   };
+  const link = document.createElement("a");
+  document.body.appendChild(link);
+  
   const handleDumpChats = async () => {
     const chats = await System.exportChats(exportType);
     if (chats) {
       const { mimeType, fileExtension } = exportOptions[exportType];
       const blob = new Blob([chats], { type: mimeType });
-      const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
       link.download = `chats.${fileExtension}`;
-      document.body.appendChild(link);
       link.click();
       window.URL.revokeObjectURL(link.href);
-      document.body.removeChild(link);
       showToast(
         `Chats exported successfully as ${fileExtension.toUpperCase()}. Note: Must have at least 10 chats to be valid for OpenAI fine tuning.`,
         "success"
