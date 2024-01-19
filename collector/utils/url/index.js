@@ -15,9 +15,9 @@ function isInvalidIp({ hostname }) {
 
 function validURL(url) {
   try {
-    const destination = new URL(url);
-    if (!VALID_PROTOCOLS.includes(destination.protocol)) return false;
-    if (isInvalidIp(destination)) return false;
+    const { protocol, hostname } = new URL(url);
+    if (!VALID_PROTOCOLS.includes(protocol)) return false;
+    if (isInvalidIp({ hostname })) return false;
     return true;
   } catch {}
   return false;
