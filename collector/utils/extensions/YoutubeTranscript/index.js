@@ -59,7 +59,7 @@ async function loadYouTubeTranscript({ url }) {
     __dirname,
     `../../../../server/storage/documents/${outFolder}`
   );
-  if (!fs.existsSync(outFolderPath)) fs.mkdirSync(outFolderPath);
+  fs.mkdirSync(outFolderPath, { recursive: true });
 
   const data = {
     id: v4(),
