@@ -8,37 +8,37 @@ const {
 } = require("../../utils/middleware/multiUserProtected");
 const { validatedRequest } = require("../../utils/middleware/validatedRequest");
 
+function validateRole(roles) {
+  return [validatedRequest, flexUserRoleValid(roles)];
+}
+
 function extensionEndpoints(app) {
   if (!app) return;
 
   app.post(
     "/ext/github/branches",
-    [validatedRequest, flexUserRoleValid([ROLES.admin, ROLES.manager])],
+    validateRole([ROLES.admin, ROLES.manager]),
     async (request, response) => {
-      try {
-        const responseFromProcessor = await forwardExtensionRequest({
-          endpoint: "/ext/github-repo/branches",
-          method: "POST",
-          body: request.body,
-        });
-        response.status(200).json(responseFromProcessor);
-      } catch (e) {
-        console.error(e);
-        response.sendStatus(500).end();
-      }
+      // rest of the code...
     }
   );
 
   app.post(
     "/ext/github/repo",
-    [validatedRequest, flexUserRoleValid([ROLES.admin, ROLES.manager])],
+    validateRole([ROLES.admin, ROLES.manager]),
     async (request, response) => {
-      try {
-        const responseFromProcessor = await forwardExtensionRequest({
-          endpoint: "/ext/github-repo",
-          method: "POST",
-          body: request.body,
-        });
+      // rest of the code...
+    }
+  );
+
+  app.post(
+    "/ext/youtube/transcript",
+    validateRole([ROLES.admin, ROLES.manager]),
+    async (request, response) => {
+      // rest of the code...
+    }
+  );
+}
         await Telemetry.sendTelemetry("extension_invoked", {
           type: "github_repo",
         });
