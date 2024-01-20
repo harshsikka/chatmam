@@ -5,15 +5,15 @@ import EditUserModal, { EditUserModalId } from "./EditUserModal";
 import { DotsThreeOutline } from "@phosphor-icons/react";
 import showToast from "@/utils/toast";
 
-const ModMap = {
+const RoleModificationMap = {
   admin: ["admin", "manager", "default"],
   manager: ["manager", "default"],
   default: [],
 };
 
-export default function UserRow({ currUser, user }) {
-  const rowRef = useRef(null);
-  const canModify = !!currUser?.role
+const canModify = !!currUser?.role
+  ? RoleModificationMap[currUser?.role].includes(user.role)
+  : false;
     ? ModMap[currUser?.role].includes(user.role)
     : false;
   const [suspended, setSuspended] = useState(user.suspended === 1);
