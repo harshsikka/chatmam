@@ -43,7 +43,7 @@ async function loadYouTubeTranscript({ url }) {
 
   const metadata = docs[0].metadata;
   let content = "";
-  docs.forEach((doc) => (content = content.concat(doc.pageContent)));
+  let content = docs.map(doc => doc.pageContent).join('');
 
   if (!content.length) {
     return {
