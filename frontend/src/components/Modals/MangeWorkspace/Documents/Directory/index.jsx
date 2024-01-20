@@ -90,18 +90,18 @@ export default function Directory({
               </div>
             ) : !!files.items ? (
               files.items.map(
-                (item, index) =>
-                  (item.name === "custom-documents" ||
-                    (item.type === "folder" && item.items.length > 0)) && (
+                (folder, index) =>
+                  (folder.name === "custom-documents" ||
+                    (folder.type === "folder" && folder.items.length > 0)) && (
                     <FolderRow
                       key={index}
-                      item={item}
+                      item={folder}
                       selected={isSelected(
-                        item.id,
-                        item.type === "folder" ? item : null
+                        folder.id,
+                        folder.type === "folder" ? folder : null
                       )}
                       fetchKeys={fetchKeys}
-                      onRowClick={() => toggleSelection(item)}
+                      onRowClick={() => toggleSelection(folder)}
                       toggleSelection={toggleSelection}
                       isSelected={isSelected}
                       setLoading={setLoading}
