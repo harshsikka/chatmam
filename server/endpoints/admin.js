@@ -27,8 +27,8 @@ function adminEndpoints(app) {
     [validatedRequest, strictMultiUserRoleValid([ROLES.admin, ROLES.manager])],
     async (_request, response) => {
       try {
-        const users = (await User.where()).map((user) => {
-          const { password, ...rest } = user;
+        const users = await User.where().select('id', 'username', 'email', 'role');
+        response.status(200).json({ users });
           return rest;
         });
         response.status(200).json({ users });
