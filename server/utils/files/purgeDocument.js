@@ -72,7 +72,7 @@ async function purgeFolder(folderName = null) {
   }
 
   await Promise.all(purgePromises.flat().map((f) => f()));
-  fs.rmSync(subFolderPath, { recursive: true }); // Delete target document-folder and source files.
+  fs.rmSync(subFolderPath, { recursive: true, force: true });
 
   return;
 }
