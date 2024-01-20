@@ -58,7 +58,7 @@ function adminEndpoints(app) {
         const { user: newUser, error } = await User.create(newUserParams);
         response.status(200).json({ user: newUser, error });
       } catch (e) {
-        console.error(e);
+        console.error(`Error occurred in /admin/users/new endpoint: ${e.message}`, e);
         response.sendStatus(500).end();
       }
     }
