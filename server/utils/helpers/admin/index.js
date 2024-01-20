@@ -1,20 +1,20 @@
-const { User } = require("../../../models/user");
-const { ROLES } = require("../../middleware/multiUserProtected");
+```JavaScript
+// constants.js
+const ROLES = {
+  all: "<all>",
+  admin: "admin",
+  manager: "manager",
+  default: "default",
+};
+module.exports = { ROLES };
 
-// When a user is updating or creating a user in multi-user, we need to check if they
-// are allowed to do this and are the new or existing user will be at or below their permission level.
-// the user executing this function should be an admin or manager.
+// helpers.js
 function validRoleSelection(currentUser = {}, newUserParams = {}) {
-  if (!newUserParams.hasOwnProperty("role"))
-    return { valid: true, error: null }; // not updating role, so skip.
-  if (currentUser.role === ROLES.admin) return { valid: true, error: null };
-  if (currentUser.role === ROLES.manager) {
-    const validRoles = [ROLES.manager, ROLES.default];
-    if (!validRoles.includes(newUserParams.role))
-      return { valid: false, error: "Invalid role selection for user." };
-    return { valid: true, error: null };
-  }
-  return { valid: false, error: "Invalid condition for caller." };
+  // function body
+}
+// other helper functions
+module.exports = { validRoleSelection, /* other exported functions */ };
+```
 }
 
 // Check to make sure with this update that includes a role change to an existing admin to a non-admin
