@@ -203,7 +203,7 @@ function apiAdminEndpoints(app) {
 
       if (!validAdminRoleModification.valid) {
         response
-          .status(200)
+          .status(400)
           .json({ success: false, error: validAdminRoleModification.error });
         return;
       }
