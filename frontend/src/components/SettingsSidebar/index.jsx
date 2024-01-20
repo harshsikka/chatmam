@@ -62,18 +62,18 @@ export default function SettingsSidebar() {
           <div className="h-[100%] flex flex-col w-full justify-between pt-4 overflow-y-hidden">
             <div className="h-auto sidebar-items">
               <div className="flex flex-col gap-y-2 h-[65vh] pb-8 overflow-y-scroll no-scroll">
-                <Option
-                  href={paths.settings.system()}
-                  btnText="System Preferences"
-                  icon={<SquaresFour className="h-5 w-5 flex-shrink-0" />}
-                  user={user}
-                  allowedRole={["admin", "manager"]}
-                />
-                <Option
-                  href={paths.settings.invites()}
-                  btnText="Invitation"
-                  icon={<EnvelopeSimple className="h-5 w-5 flex-shrink-0" />}
-                  user={user}
+                const createOption = (href, btnText, icon, allowedRole) => (
+                  <Option
+                    href={href}
+                    btnText={btnText}
+                    icon={icon}
+                    user={user}
+                    allowedRole={allowedRole}
+                  />
+                );
+                
+                // Usage
+                {createOption(paths.settings.system(), "System Preferences", <SquaresFour className="h-5 w-5 flex-shrink-0" />, ["admin", "manager"])}
                   allowedRole={["admin", "manager"]}
                 />
                 <Option
