@@ -6,7 +6,7 @@
 
 services:
   - type: web
-    name: anythingllm
+    name: chatmam
     runtime: image
     image: 
       url: docker.io/mintplexlabs/anythingllm:render
